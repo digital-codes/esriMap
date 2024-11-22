@@ -13,7 +13,7 @@
     "copy:calcite": "cpx ./node_modules/@esri/calcite-components/dist/calcite/assets/**/*.* ./public/assets"
   },
   "devDependencies": {
-    "cpx": "^1.5.0",
+    "cpx": "^1.2.1",
     "vite": "^5.0.8"
   },
   "dependencies": {
