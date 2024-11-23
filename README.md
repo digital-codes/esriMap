@@ -14,6 +14,10 @@ https://developers.arcgis.com/javascript/latest/get-started-npm/
 
 
 ---------
+scrrenshot:
+https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#takeScreenshot
+
+---------
 fearure data, example https://www.arcgis.com/home/item.html?id=a04933c045714492bda6886f355416f2
 trailheads, tracks
 
