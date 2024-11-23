@@ -6,10 +6,10 @@ import "./esri.css";
 
 //import { defineCustomElements as defineMapElements } from "@arcgis/map-components/dist/loader";
 
-/*
+/* dynmaic bundlin below seems to save about 500kB. not very much .... to be confimed */
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
-*/
+/* */
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Graphic from "@arcgis/core/Graphic";
@@ -67,14 +67,11 @@ const vectorUrl = "https://geoportal.karlsruhe.de/server/rest/services/Hosted/Re
 
 export async function setupMap(element) {
   // dynamic import ... ? maybe
+  /*
   const [{ default: Map }, { default: MapView }] = await Promise.all([
     import("@arcgis/core/Map"),
     import("@arcgis/core/views/MapView")
   ]);
-  /*
-  const Map = await import("@arcgis/core/Map")
-  console.log("Map",Map)
-  const MapView = await import("@arcgis/core/views/MapView")
   */
 
   console.log("setupMap", element);
