@@ -237,6 +237,7 @@ export async function setupMap(element) {
   });
   graphicsLayer.add(polygonGraphic);
 
+  // dynamically remove items from graphics layer
   let symTgl = false
   // make the polygon fill toggle
   const tglFill = () => {
@@ -255,13 +256,18 @@ export async function setupMap(element) {
     //
     const items = graphicsLayer.graphics.length
     console.log("Items:",items)
-    for (const g of graphicsLayer.graphics) {
-      console.log("item:",g)
+    for (let i = 0;i < items; i++) {
+      console.log("item:",graphicsLayer.graphics.getItemAt(i))
+    }
+    if (items > 1) {
+      const g = graphicsLayer.graphics.getItemAt(items - 1)
+      graphicsLayer.remove(g)
     }
     //
     setTimeout(tglFill,2000)
   }
-  tglFill()
+  // larger delay on first call
+  setTimeout(tglFill,8000)
 
   // tracks
   const popupTracks = new PopupTemplate({
