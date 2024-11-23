@@ -1,0 +1,32 @@
+[
+    {
+        "OBJECTID": "P1",
+        "NAME": "Marker 1",
+        "IMGURL": "https://dashboard.daten.city/assets/climate_color_transparent_b-B-6g7-Pz.svg",
+        "LAT": 8.4,
+        "LON": 49.01,
+        "FID": 1,
+        "x": 8.4,
+        "y": 49.01
+    },
+    {
+        "OBJECTID": "P2",
+        "NAME": "Marker 2",
+        "IMGURL": "custom/images/support.png",
+        "LAT": 8.405,
+        "LON": 49.015,
+        "FID": 2,
+        "x": 8.405,
+        "y": 49.015
+    },
+    {
+        "OBJECTID": "P3",
+        "NAME": "Marker 3",
+        "IMGURL": null,
+        "LAT": 8.395,
+        "LON": 49.005,
+        "FID": 3,
+        "x": 8.395,
+        "y": 49.005
+    }
+]

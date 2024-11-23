@@ -1,0 +1,70 @@
+{
+    "type": "FeatureCollection",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "EPSG:4326"
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "id": 1,
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        8.405, 49.015
+                    ],
+                    [
+                        8.4, 49.01
+                    ],
+                    [
+                        8.395, 49.005
+                    ]
+                ]
+            },
+            "properties": {
+                "OBJECTID": 1,
+                "TRL_NAME": "Trail1",
+                "TRL_ID": "010002",
+                "ELEV_MIN": 1138,
+                "ELEV_MAX": 1161,
+                "ELEV_GAIN": 23,
+                "LENGTH_FT": 1010,
+                "LENGTH_MI": 0.19,
+                "USE": "Yes"
+            }
+        },
+        {
+            "type": "Feature",
+            "id": 2,
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        8.405, 49.025
+                    ],
+                    [
+                        8.4, 49.02
+                    ],
+                    [
+                        8.395, 49.005
+                    ]
+                ]
+            },
+            "properties": {
+                "OBJECTID": 2,
+                "TRL_NAME": "Trail2",
+                "TRL_ID": "010002",
+                "ELEV_MIN": 1138,
+                "ELEV_MAX": 1161,
+                "ELEV_GAIN": 23,
+                "LENGTH_FT": 1010,
+                "LENGTH_MI": 0.19,
+                "USE": "No"
+            }
+        }
+
+   ]
+}

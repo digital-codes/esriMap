@@ -8,15 +8,23 @@ import "@arcgis/map-components/dist/components/arcgis-legend";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import Point from "@arcgis/core/geometry/Point";
 import Graphic from "@arcgis/core/Graphic";
+import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
+
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import Point from "@arcgis/core/geometry/Point";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
-import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import { SimpleFillSymbol, SimpleLineSymbol } from "@arcgis/core/symbols";
+
+// vite default bundling options don't load csv or geojson
+import points from "./src/data/points.json";
+import tracks from "./src/data/tracks.json";
+
+console.log("points", points);
+console.log("tracks", tracks);
 
 
 // in esri.css
@@ -44,22 +52,32 @@ console.log("esriConfig.assetsPath", esriConfig.assetsPath);
 //import "@arcgis/coding-components/dist/components/arcgis-arcade-editor";
 //import "@esri/calcite-components/dist/components/calcite-scrim";
 
-//const vectorUrl = "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer"
+const vectorUrlBase = "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer"
 const vectorUrl = "https://geoportal.karlsruhe.de/server/rest/services/Hosted/Regiokarte_farbig_Vektor/VectorTileServer"
 
+// low zoom level
+//	https://geoportal.karlsruhe.de/server/rest/services/Hosted/Regiokarte_farbig_Vektor/VectorTileServer/tile/11/703/1071.pbf
+
 export function setupMap(element) {
-   console.log("setupMap", element);
+  console.log("setupMap", element);
   const map = new Map();
 
   // Make map view and bind it to the map
   const view = new MapView({
     container: element.id,
     map: map,
-    center: [8.4,49.01],
+    center: [8.4, 49.01],
     zoom: 13,
     minzoom: 13,
     maxzoom: 18
   });
+  const baseLayer = new VectorTileLayer({
+    url: vectorUrlBase,
+    title: "Base"
+  });
+  console.log("tileLayer loaded", baseLayer);
+  map.add(baseLayer);
+
   const tileLayer = new VectorTileLayer({
     url: vectorUrl,
     title: "Karlsruhe",
@@ -75,9 +93,9 @@ export function setupMap(element) {
   // Define marker symbols and popups
   function addMarker(longitude, latitude, title, content) {
     var point = {
-        type: "point", // autocasts as new Point()
-        longitude: longitude,
-        latitude: latitude
+      type: "point", // autocasts as new Point()
+      longitude: longitude,
+      latitude: latitude
     };
     /*
     var markerSymbol = {
@@ -98,28 +116,40 @@ export function setupMap(element) {
     });
 
     var pointGraphic = new Graphic({
-        geometry: point,
-        symbol: markerSymbol,
-        popupTemplate: { // autocasts as new PopupTemplate()
-            title: title,
-            content: content
-        }
+      geometry: point,
+      symbol: markerSymbol,
+      popupTemplate: { // autocasts as new PopupTemplate()
+        title: title,
+        content: content
+      }
     });
 
     graphicsLayer.add(pointGraphic);
   }
 
   // img not working without full http path
+
+  points.forEach(point => {
+    let content = point.NAME;
+    if (point.IMGURL && point.IMGURL.length > 0) {
+      if (point.IMGURL.startsWith("http")) {
+        content = `<div class='popup-content'><h4>${point.NAME}</h4><img src="${point.IMGURL}" alt='Supported' style='width: 100px;'><p>xxx</p></div>`
+      } else {
+        content = `<div class='popup-content'><h4>${point.NAME}</h4><img src="${assetPathUrl}/${point.IMGURL}" alt='Supported' style='width: 100px;'><p>xxx</p></div>`
+      }
+    }
+    addMarker(point.LAT, point.LON, point.OBJECTID, content);
+  });
+
+  /*
   //const mk1Pop = "<div class='popup-content'><h4>This is the very first marker.</h4><img src='/assets/custom/images/support.png' alt='Supported' style='width: 100px;'><p>xxx</p></div>"
-  const imgUrl = assetPathUrl + "/custom/images/support.png";
-  const mk1Pop = `<div class='popup-content'><h4>This is the very first marker.</h4><img src="${imgUrl}" alt='Supported' style='width: 100px;'><p>xxx</p></div>`
-    
-
-    // Add sample markers
-    const mk1 = addMarker(8.4, 49.01, "Marker 1",mk1Pop);
-    const mk2 = addMarker(8.405, 49.015, "Marker 2", "This is the second marker.");
-    const mk3 = addMarker(8.395, 49.005, "Marker 3", "This is the third marker.");    
-    console.log("Markers added",mk1,mk2,mk3);
-
+  //const imgUrl = assetPathUrl + "/custom/images/support.png";
+  // const mk1Pop = `<div class='popup-content'><h4>This is the very first marker.</h4><img src="${imgUrl}" alt='Supported' style='width: 100px;'><p>xxx</p></div>`
+  // Add sample markers
+  const mk1 = addMarker(8.4, 49.01, "Marker 1", mk1Pop);
+  const mk2 = addMarker(8.405, 49.015, "Marker 2", "This is the second marker.");
+  const mk3 = addMarker(8.395, 49.005, "Marker 3", "This is the third marker.");
+  console.log("Markers added", mk1, mk2, mk3);
+  */
 
 }
