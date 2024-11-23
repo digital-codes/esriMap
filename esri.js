@@ -220,15 +220,48 @@ export async function setupMap(element) {
       width: 1
     }
   };
+    const polyPop = {
+      title: "{Name}",
+      content: "{Description}"
+    };
+    const attributes = {
+      Name: "Graphic",
+      Description: "I am a polygon"
+    };
 
   const polygonGraphic = new Graphic({
     geometry: polygon,
     symbol: simpleFillSymbol,
-
+    attributes: attributes,
+    popupTemplate: polyPop
   });
   graphicsLayer.add(polygonGraphic);
 
-
+  let symTgl = false
+  // make the polygon fill toggle
+  const tglFill = () => {
+    console.log("toggle",symTgl)
+    const color = symTgl ?  [227, 139, 79, 0.8] :  [20,150, 227, 0.8]
+    polygonGraphic.symbol = 
+    {
+      type: "simple-fill",
+      color: color,
+      outline: {
+        color: [255, 255, 255], // white outline
+        width: 2
+      }
+    }
+    symTgl = !symTgl
+    //
+    const items = graphicsLayer.graphics.length
+    console.log("Items:",items)
+    for (const g of graphicsLayer.graphics) {
+      console.log("item:",g)
+    }
+    //
+    setTimeout(tglFill,2000)
+  }
+  tglFill()
 
   // tracks
   const popupTracks = new PopupTemplate({
@@ -337,9 +370,6 @@ export async function setupMap(element) {
 
   // Add the FeatureLayer to the map
   map.add(trackLayer);
-
-
-
 
 
 }
