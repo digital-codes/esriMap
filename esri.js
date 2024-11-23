@@ -13,6 +13,9 @@ import Graphic from "@arcgis/core/Graphic";
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+
+import Polyline from "@arcgis/core/geometry/Polyline";
+
 import Point from "@arcgis/core/geometry/Point";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
@@ -151,5 +154,109 @@ export function setupMap(element) {
   const mk3 = addMarker(8.395, 49.005, "Marker 3", "This is the third marker.");
   console.log("Markers added", mk1, mk2, mk3);
   */
+
+  // tracks
+  /**
+   * Converts an array of GeoJSON-like features into Esri Graphic objects.
+   *
+   * @param {Array} geoFeatures - Array of GeoJSON-like feature objects.
+   * @returns {Array} - Array of Esri Graphic objects.
+   */
+  function createTrackGraphics(geoFeatures) {
+    return geoFeatures.map(feature => {
+      // Destructure necessary properties from the feature
+      const {
+        geometry: { coordinates, type },
+        properties: { OBJECTID, TRL_NAME, TRL_ID, PROP, USE }
+      } = feature;
+
+      // Ensure the geometry type is LineString
+      if (type !== "LineString") {
+        console.warn(`Unsupported geometry type: ${type}. Only LineString is supported.`);
+        return null;
+      }
+
+      // Create a Polyline geometry
+      const polyline = new Polyline({
+        paths: [coordinates], // Esri expects an array of paths
+        spatialReference: { wkid: 4326 } // WGS84
+      });
+
+      // Define the symbol for the track line
+      const symbol = new SimpleLineSymbol({
+        color: [0, 128, 0, 0.8], // Green color with 80% opacity
+        width: 4,
+        style: "dash" // Options: "solid", "dash", "dot", etc.
+      });
+
+      // Create the Graphic
+      const graphic = new Graphic({
+        geometry: polyline,
+        symbol: symbol,
+        attributes: {
+          ObjectID: OBJECTID,
+          TrailName: TRL_NAME,
+          TrailID: TRL_ID,
+          Property: PROP,
+          Usage: USE
+        },
+        popupTemplate: { // autocasts as new PopupTemplate()
+          title: "123",
+          content: "abc" //content
+        }
+        /*
+        popupTemplate: {
+          title: "{TrailName}",
+          content: `
+          <div class='popup-content'>
+            <h4>{TrailName}</h4>
+            <p><strong>Trail ID:</strong> {TrailID}</p>
+            <p><strong>Property:</strong> {Property}</p>
+            <p><strong>Usage:</strong> {Usage}</p>
+          </div>
+        `
+        }
+        */
+      });
+
+      return graphic;
+    }).filter(graphic => graphic !== null); // Remove any null entries due to unsupported geometries
+  }
+
+  // Create graphics from GeoJSON features
+  const trackGraphics = createTrackGraphics(tracks.features);
+
+  // Initialize the FeatureLayer with the graphics
+  const trackLayer = new FeatureLayer({
+    source: trackGraphics, // Array of Graphic objects
+    fields: [
+      { name: "OBJECTID", type: "oid" },
+      { name: "TRL_NAME", type: "string" },
+      { name: "TRL_ID", type: "string" },
+      { name: "PROP", type: "integer" },
+      { name: "USE", type: "string" }
+    ],
+    objectIdField: "OBJECTID",
+    geometryType: "polyline",
+    spatialReference: { wkid: 4326 },
+    renderer:
+    {
+      type: "simple",
+      symbol: new SimpleLineSymbol({
+        color: [0, 128, 255, 0.8],
+        width: 3,
+        style: "solid"
+      })
+    },
+    popupEnabled: true,
+    // outFields: ["*"],
+    outFields: ["TRL_NAME", "TRL_ID", "PROP", "USE"],
+    title: "Track Lines"
+  });
+
+  // Add the FeatureLayer to the map
+  map.add(trackLayer);
+
+
 
 }

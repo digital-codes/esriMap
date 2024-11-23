@@ -28,11 +28,7 @@
                 "OBJECTID": 1,
                 "TRL_NAME": "Trail1",
                 "TRL_ID": "010002",
-                "ELEV_MIN": 1138,
-                "ELEV_MAX": 1161,
-                "ELEV_GAIN": 23,
-                "LENGTH_FT": 1010,
-                "LENGTH_MI": 0.19,
+                "PROP": 5,
                 "USE": "Yes"
             }
         },
@@ -57,11 +53,7 @@
                 "OBJECTID": 2,
                 "TRL_NAME": "Trail2",
                 "TRL_ID": "010002",
-                "ELEV_MIN": 1138,
-                "ELEV_MAX": 1161,
-                "ELEV_GAIN": 23,
-                "LENGTH_FT": 1010,
-                "LENGTH_MI": 0.19,
+                "PROP": 2,
                 "USE": "No"
             }
         }
