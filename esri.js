@@ -156,6 +156,18 @@ export function setupMap(element) {
   */
 
   // tracks
+  const popupTracks = new PopupTemplate({
+  title: "Trail Name: {TRL_NAME}",
+    content: `
+      <div class='popup-content'>
+        <h4>{TRL_NAME}</h4>
+        <p><strong>Trail ID:</strong> {TRL_ID}</p>
+        <p><strong>Property:</strong> {PROP}</p>
+        <p><strong>Usage:</strong> {USE}</p>
+      </div>
+    `
+  });
+
   /**
    * Converts an array of GeoJSON-like features into Esri Graphic objects.
    *
@@ -200,10 +212,13 @@ export function setupMap(element) {
           Property: PROP,
           Usage: USE
         },
-        popupTemplate: { // autocasts as new PopupTemplate()
+        popupTemplate: popupTracks,
+        /*
+        { // autocasts as new PopupTemplate()
           title: "123",
           content: "abc" //content
         }
+          */
         /*
         popupTemplate: {
           title: "{TrailName}",
@@ -237,7 +252,7 @@ export function setupMap(element) {
       { name: "USE", type: "string" }
     ],
     objectIdField: "OBJECTID",
-    geometryType: "polyline",
+    //geometryType: "polyline",
     spatialReference: { wkid: 4326 },
     renderer:
     {
@@ -251,6 +266,7 @@ export function setupMap(element) {
     popupEnabled: true,
     // outFields: ["*"],
     outFields: ["TRL_NAME", "TRL_ID", "PROP", "USE"],
+    popupTemplate: popupTracks,
     title: "Track Lines"
   });
 
