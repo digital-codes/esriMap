@@ -18,11 +18,10 @@
   },
   "dependencies": {
     "@arcgis/coding-components": "^4.31.6",
-    "@arcgis/core": "^4.31.5",
+    "@arcgis/core": "^4.31.6",
     "@arcgis/map-components": "^4.31.6",
     "@fontsource/figtree": "^5.1.1",
     "@fontsource/roboto": "^5.1.0",
-    "install": "^0.13.0",
     "npm": "^10.9.1"
   }
 }

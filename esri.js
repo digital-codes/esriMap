@@ -15,19 +15,20 @@ import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 
 import Polyline from "@arcgis/core/geometry/Polyline";
+import { SimpleLineSymbol } from "@arcgis/core/symbols";
 
-import Point from "@arcgis/core/geometry/Point";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
+
+/*
+import Point from "@arcgis/core/geometry/Point";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
-import { SimpleFillSymbol, SimpleLineSymbol } from "@arcgis/core/symbols";
+import { SimpleFillSymbol } from "@arcgis/core/symbols";
+*/
 
 // vite default bundling options don't load csv or geojson
 import points from "./src/data/points.json";
 import tracks from "./src/data/tracks.json";
-
-console.log("points", points);
-console.log("tracks", tracks);
 
 
 // in esri.css
@@ -61,7 +62,7 @@ const vectorUrl = "https://geoportal.karlsruhe.de/server/rest/services/Hosted/Re
 // low zoom level
 //	https://geoportal.karlsruhe.de/server/rest/services/Hosted/Regiokarte_farbig_Vektor/VectorTileServer/tile/11/703/1071.pbf
 
-export function setupMap(element) {
+export async function setupMap(element) {
   console.log("setupMap", element);
   const map = new Map();
 
@@ -94,7 +95,7 @@ export function setupMap(element) {
   map.add(graphicsLayer);
 
   // Define marker symbols and popups
-  function addMarker(longitude, latitude, title, content) {
+  const addMarker = async (longitude, latitude, title, content) => {
     var point = {
       type: "point", // autocasts as new Point()
       longitude: longitude,
@@ -110,10 +111,19 @@ export function setupMap(element) {
         }
     };
     */
+   /*
     var markerSymbol = new PictureMarkerSymbol({
       url: "assets/custom/icons/github-mark.svg", // Path to your custom icon
       width: "32px", // Adjust size as needed
       height: "32px",
+      // Optionally, set an anchor point to position the icon correctly
+      yoffset: 16 // Moves the icon up by half its height
+    });
+    */
+    var markerSymbol = new PictureMarkerSymbol({
+      url: "assets/custom/icons/marker-icon-2x.png",  // Path to your custom icon
+      width: "32px", // Adjust size as needed
+      height: "50px",
       // Optionally, set an anchor point to position the icon correctly
       yoffset: 16 // Moves the icon up by half its height
     });
@@ -144,6 +154,28 @@ export function setupMap(element) {
     addMarker(point.LAT, point.LON, point.OBJECTID, content);
   });
 
+  // add points from fetched data
+  let dynamicPoints = [];
+  const req = await fetch("/data/weatherPois.json")
+  if (req.ok) {
+    dynamicPoints = await req.json();
+    console.log("dynamicPoints", dynamicPoints.features);
+    dynamicPoints.features.forEach(point => {
+      const coords = point.geometry.coordinates;
+      const props = point.properties;
+      let content = props.name;
+      if (props.img && props.img.length > 0) {
+        if (props.img.startsWith("http")) {
+          content = `<div class='popup-content'><h4>${props.name}</h4><img src="${props.img}" alt='Supported' style='width: 100px;'><p>${props.attribution}</p></div>`
+        } else {
+          content = `<div class='popup-content'><h4>${props.name}</h4><img src="${assetPathUrl}/${props.img}" alt='Supported' style='width: 100px;'><p></p></div>`
+        }
+      }
+      addMarker(coords[0], coords[1], null, content);
+    });
+  
+  }
+
   /*
   //const mk1Pop = "<div class='popup-content'><h4>This is the very first marker.</h4><img src='/assets/custom/images/support.png' alt='Supported' style='width: 100px;'><p>xxx</p></div>"
   //const imgUrl = assetPathUrl + "/custom/images/support.png";
@@ -157,24 +189,23 @@ export function setupMap(element) {
 
   // tracks
   const popupTracks = new PopupTemplate({
-  title: "Trail Name: {TRL_NAME}",
-    content: `
-      <div class='popup-content'>
-        <h4>{TRL_NAME}</h4>
-        <p><strong>Trail ID:</strong> {TRL_ID}</p>
-        <p><strong>Property:</strong> {PROP}</p>
-        <p><strong>Usage:</strong> {USE}</p>
-      </div>
-    `
-  });
-
+    title: "Trail Name: {TRL_NAME}",
+      content: `
+        <div class='popup-content'>
+          <p><strong>Trail ID:</strong> {TRL_ID}</p>
+          <p><strong>Property:</strong> {PROP}</p>
+          <p><strong>Usage:</strong> {USE}</p>
+        </div>
+      `
+    });
+      
   /**
    * Converts an array of GeoJSON-like features into Esri Graphic objects.
    *
    * @param {Array} geoFeatures - Array of GeoJSON-like feature objects.
    * @returns {Array} - Array of Esri Graphic objects.
    */
-  function createTrackGraphics(geoFeatures) {
+  const createTrackGraphics = (geoFeatures) => {
     return geoFeatures.map(feature => {
       // Destructure necessary properties from the feature
       const {
@@ -202,36 +233,26 @@ export function setupMap(element) {
       });
 
       // Create the Graphic
+      console.log("Graphic", TRL_NAME);
       const graphic = new Graphic({
         geometry: polyline,
         symbol: symbol,
         attributes: {
+          /*
           ObjectID: OBJECTID,
           TrailName: TRL_NAME,
           TrailID: TRL_ID,
           Property: PROP,
           Usage: USE
-        },
-        popupTemplate: popupTracks,
-        /*
-        { // autocasts as new PopupTemplate()
-          title: "123",
-          content: "abc" //content
-        }
           */
-        /*
-        popupTemplate: {
-          title: "{TrailName}",
-          content: `
-          <div class='popup-content'>
-            <h4>{TrailName}</h4>
-            <p><strong>Trail ID:</strong> {TrailID}</p>
-            <p><strong>Property:</strong> {Property}</p>
-            <p><strong>Usage:</strong> {Usage}</p>
-          </div>
-        `
-        }
-        */
+         // don't rename fields
+         OBJECTID: OBJECTID,
+         TRL_NAME: TRL_NAME,
+         TRL_ID: TRL_ID,
+         PROP: PROP,
+         USE: USE
+       },
+       // popups in feature layer
       });
 
       return graphic;
@@ -241,11 +262,12 @@ export function setupMap(element) {
   // Create graphics from GeoJSON features
   const trackGraphics = createTrackGraphics(tracks.features);
 
+
   // Initialize the FeatureLayer with the graphics
   const trackLayer = new FeatureLayer({
     source: trackGraphics, // Array of Graphic objects
     fields: [
-      { name: "OBJECTID", type: "oid" },
+      // make sure fields not renamed in graphics attributes  
       { name: "TRL_NAME", type: "string" },
       { name: "TRL_ID", type: "string" },
       { name: "PROP", type: "integer" },
