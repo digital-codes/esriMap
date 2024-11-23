@@ -125,15 +125,15 @@ export async function setupMap(element) {
         }
     };
     */
-   /*
-    var markerSymbol = new PictureMarkerSymbol({
-      url: "assets/custom/icons/github-mark.svg", // Path to your custom icon
-      width: "32px", // Adjust size as needed
-      height: "32px",
-      // Optionally, set an anchor point to position the icon correctly
-      yoffset: 16 // Moves the icon up by half its height
-    });
-    */
+    /*
+     var markerSymbol = new PictureMarkerSymbol({
+       url: "assets/custom/icons/github-mark.svg", // Path to your custom icon
+       width: "32px", // Adjust size as needed
+       height: "32px",
+       // Optionally, set an anchor point to position the icon correctly
+       yoffset: 16 // Moves the icon up by half its height
+     });
+     */
     var markerSymbol = new PictureMarkerSymbol({
       url: "assets/custom/icons/marker-icon-2x.png",  // Path to your custom icon
       width: "32px", // Adjust size as needed
@@ -187,7 +187,7 @@ export async function setupMap(element) {
       }
       addMarker(coords[0], coords[1], null, content);
     });
-  
+
   }
 
   /*
@@ -201,18 +201,50 @@ export async function setupMap(element) {
   console.log("Markers added", mk1, mk2, mk3);
   */
 
+  // polygon
+  // ------------
+  // Create a polygon geometry
+  const polygon = {
+    type: "polygon",
+    rings: [
+      [8.42, 49.011], //Longitude, latitude
+      [8.44, 49.013], //Longitude, latitude
+      [8.45, 49.016], //Longitude, latitude
+      [8.43, 49.014], //Longitude, latitude
+      [8.41, 49.012], //Longitude, latitude
+    ]
+  };
+
+  const simpleFillSymbol = {
+    type: "simple-fill",
+    color: [227, 139, 79, 0.8], // Orange, opacity 80%
+    outline: {
+      color: [255, 255, 255],
+      width: 1
+    }
+  };
+
+  const polygonGraphic = new Graphic({
+    geometry: polygon,
+    symbol: simpleFillSymbol,
+
+  });
+  graphicsLayer.add(polygonGraphic);
+
+
+
   // tracks
   const popupTracks = new PopupTemplate({
     title: "Trail Name: {TRL_NAME}",
-      content: `
+    content: `
         <div class='popup-content'>
           <p><strong>Trail ID:</strong> {TRL_ID}</p>
           <p><strong>Property:</strong> {PROP}</p>
           <p><strong>Usage:</strong> {USE}</p>
         </div>
       `
-    });
-      
+  });
+
   /**
    * Converts an array of GeoJSON-like features into Esri Graphic objects.
    *
@@ -259,14 +291,14 @@ export async function setupMap(element) {
           Property: PROP,
           Usage: USE
           */
-         // don't rename fields
-         OBJECTID: OBJECTID,
-         TRL_NAME: TRL_NAME,
-         TRL_ID: TRL_ID,
-         PROP: PROP,
-         USE: USE
-       },
-       // popups in feature layer
+          // don't rename fields
+          OBJECTID: OBJECTID,
+          TRL_NAME: TRL_NAME,
+          TRL_ID: TRL_ID,
+          PROP: PROP,
+          USE: USE
+        },
+        // popups in feature layer
       });
 
       return graphic;
@@ -308,6 +340,8 @@ export async function setupMap(element) {
 
   // Add the FeatureLayer to the map
   map.add(trackLayer);
+
+
 
 
 
