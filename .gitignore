@@ -1,3 +1,9 @@
+# esri assets
+public/assets/components
+public/assets/esri
+public/assets/calcite
+
+#
 # Logs
 logs
 *.log

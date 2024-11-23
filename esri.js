@@ -1,12 +1,15 @@
 import "./esri.css";
 
-import "@arcgis/map-components/dist/components/arcgis-map";
-import "@arcgis/map-components/dist/components/arcgis-legend";
+// maybe not needed
+//import "@arcgis/map-components/dist/components/arcgis-map";
+//import "@arcgis/map-components/dist/components/arcgis-legend";
 
 //import { defineCustomElements as defineMapElements } from "@arcgis/map-components/dist/loader";
 
+/*
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
+*/
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Graphic from "@arcgis/core/Graphic";
@@ -63,6 +66,17 @@ const vectorUrl = "https://geoportal.karlsruhe.de/server/rest/services/Hosted/Re
 //	https://geoportal.karlsruhe.de/server/rest/services/Hosted/Regiokarte_farbig_Vektor/VectorTileServer/tile/11/703/1071.pbf
 
 export async function setupMap(element) {
+  // dynamic import ... ? maybe
+  const [{ default: Map }, { default: MapView }] = await Promise.all([
+    import("@arcgis/core/Map"),
+    import("@arcgis/core/views/MapView")
+  ]);
+  /*
+  const Map = await import("@arcgis/core/Map")
+  console.log("Map",Map)
+  const MapView = await import("@arcgis/core/views/MapView")
+  */
+
   console.log("setupMap", element);
   const map = new Map();
 
