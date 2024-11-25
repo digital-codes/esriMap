@@ -12,7 +12,7 @@ body {
 .map {
   padding: 0;
   margin: 0;
-  height: 50vh;
+  height: 60vh;
   width: 80vw;
   border:solid 1px blue;
 }
