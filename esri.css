@@ -16,3 +16,48 @@ body {
   width: 80vw;
   border:solid 1px blue;
 }
+
+
+/* Popup container customization */
+.esri-popup {
+  font-size: 14px; /* Adjust font size for readability */
+  max-width: 300px; /* Restrict width for smaller screens */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px; /* Add rounded corners */
+}
+
+/* Popup header styling */
+.esri-popup__header {
+  background-color: #0079c1;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Popup content styling */
+.esri-popup__content {
+  font-size: 14px;
+  padding: 10px;
+  line-height: 1.5;
+}
+
+/* Close button styling */
+.esri-popup__button--close {
+  color: white;
+  font-size: 16px;
+}
+
+/* Make the popup fullscreen on mobile (optional) */
+@media (max-width: 768px) {
+  .esri-popup {
+      width: 100%;
+      height: auto;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: fixed;
+      border-radius: 0;
+  }
+}
