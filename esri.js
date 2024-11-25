@@ -23,6 +23,8 @@ import { SimpleLineSymbol } from "@arcgis/core/symbols";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 
 import LayerList  from "@arcgis/core/widgets/LayerList";
+import Home  from "@arcgis/core/widgets/Home";
+import Expand  from "@arcgis/core/widgets/Expand";
 import Legend from "@arcgis/core/widgets/Legend";
 
 const withGraphics = false;
@@ -102,14 +104,25 @@ export async function setupMap(element) {
   const layerList = new LayerList({
     view: view
   });
-  view.ui.add(layerList, "top-right");
-  
+  //view.ui.add(layerList, "top-right");
+  const llExpand = new Expand({
+    view: view,
+    content: layerList,
+    expanded: false
+  })
+  view.ui.add(llExpand, "top-right");  
   /*
   const legend = new Legend({
     view: view
   });
   view.ui.add(legend, "bottom-right");
   */
+  const homeWidget = new Home({
+    view: view
+  });
+  view.ui.add(homeWidget, 'top-left')
+
+
 
   const baseLayer = new VectorTileLayer({
     url: vectorUrlBase,
