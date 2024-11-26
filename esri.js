@@ -122,6 +122,7 @@ export async function setupMap(element) {
   });
   view.ui.add(homeWidget, 'top-left')
 
+  view.ui.add("logoDiv", "bottom-right");
 
 
   const baseLayer = new VectorTileLayer({

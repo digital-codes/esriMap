@@ -15,8 +15,16 @@ body {
   height: 60vh;
   width: 80vw;
   border:solid 1px blue;
+  /* overwrite scrim background */
+  --calcite-sheet-scrim-background: rgba(0, 0, 0, .1);
 }
 
+.esri-widget .logo {
+  padding: 0.25rem;
+  height: 3rem;
+  width:auto;
+  margin:auto;
+}
 
 /* Popup container customization */
 .esri-popup {
@@ -24,6 +32,7 @@ body {
   max-width: 300px; /* Restrict width for smaller screens */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px; /* Add rounded corners */
+  --calcite-scrim-background: rgba(200, 0, 0, 0.5);
 }
 
 /* Popup header styling */
@@ -60,8 +69,11 @@ body {
       right: 0;
       position: fixed;
       border-radius: 0;
+    }
+
+  .esri-widget .logo {
+    padding: 0.25rem;
+    height: 2rem;
   }
-  .scrim {
-    background-color: rgba(0, 0, 0, 0);
-  } 
+  
 }
