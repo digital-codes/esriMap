@@ -104,10 +104,14 @@ export async function setupMap(element) {
   const layerList = new LayerList({
     view: view
   });
+  const xContainer = document.getElementById("x");
+
   //view.ui.add(layerList, "top-right");
   const llExpand = new Expand({
-    view: view,
+    //view: view,
+    container: document.createElement("div"),
     content: layerList,
+    // placement: "bottom",
     expanded: false
   })
   view.ui.add(llExpand, "top-right");  
