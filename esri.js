@@ -49,6 +49,9 @@ import tracks from "./src/data/tracks.json";
 import esriConfig from "@arcgis/core/config.js";
 import { setAssetPath as setCalciteAssetPath } from "@esri/calcite-components/dist/components";
 import { setArcgisAssetPath as setCodingAssetPath } from "@arcgis/coding-components/dist/components";
+//import { LanguageDefaultsBase } from "@arcgis/coding-components/dist/types/utils/language-defaults-base";
+
+import * as intl from "@arcgis/core/intl.js";
 
 // Set assets path for @arcgis/core, @esri/calcite-components and @arcgis/coding-components
 const assetPathUrl = `${location.href}assets`;
@@ -91,6 +94,17 @@ export async function setupMap(element) {
   console.log("setupMap", element);
   const map = new Map();
 
+  intl.setLocale("de");
+  console.log("locale", intl.getLocale());
+  /*
+  const body = document.querySelector("body");
+  body.style["--esri-calcite-mode-name"] = "dark!important";
+  */
+ 
+  // for dark mode see https://developers.arcgis.com/calcite-design-system/tutorials/build-a-dark-mode-switch/
+  // https://community.esri.com/t5/arcgis-javascript-maps-sdk-questions/toggling-light-dark-theme-programmatically-api-4-x/td-p/1124885
+  // and https://developers.arcgis.com/calcite-design-system/guide/theming/
+
   // Make map view and bind it to the map
   const view = new MapView({
     container: element.id,
@@ -100,6 +114,7 @@ export async function setupMap(element) {
     minzoom: 13,
     maxzoom: 18
   });
+
 
   const layerList = new LayerList({
     view: view
@@ -547,6 +562,8 @@ export async function setupMap(element) {
       },
     });
     map.add(plzFeatureLayer);
+   
+    
   }
 
 }
