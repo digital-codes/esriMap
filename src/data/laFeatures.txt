@@ -32,3 +32,8 @@ returnGeometry=false
 spatialRel=esriSpatialRelIntersects
 where=1%3D1
 
+-----------------
+lärm like 
+http get https://geoportal.karlsruhe.de/ags04/rest/services/Hosted//Laermkarten_Vektor/FeatureServer/5/query f==geojson returnGeometry=true spatialRel==esriSpatialRelIntersects where==1=1 geometryType==esriGeometryEnvelope inSR==102100 > laerm5.geojson
+
+
