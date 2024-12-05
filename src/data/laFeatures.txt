@@ -1,0 +1,5 @@
+get features from liegenschaftsamt like so:
+
+http get https://geoportal.karlsruhe.de/ags04/rest/services/Hosted/Hochwassergefahrenkarte/FeatureServer/0/query f==geojson geometry=="{\"xmin\":934977.7299810499,\"ymin\":6270893.800517209,\"xmax\":935283.4780941904,\"ymax\":6271199.548630349}" maxRecordCountFactor==4 orderByFields==objectid outFields==art,objectid outSR==102100 quantizationParameters=="{\"extent\":{\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100},\"xmin\":934977.7299810499,\"ymin\":6270893.800517209,\"xmax\":935283.4780941904,\"ymax\":6271199.548630349},\"mode\":\"view\",\"originPosition\":\"upperLeft\",\"tolerance\":0.5971642834777837}" resultType==tile returnCentroid==true returnExceededLimitFeatures==false spatialRel==esriSpatialRelIntersects where==1=1 geometryType==esriGeometryEnvelope inSR==102100 > feature.geojson
+
+
