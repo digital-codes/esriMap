@@ -11,6 +11,11 @@ Full city, 6 tiles like:
 probably uses esri geodesic utils
 https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-geodesicUtils.html
 
+
+full geojson, 35 MB
+http get https://geoportal.karlsruhe.de/ags04/rest/services/Hosted/Hochwassergefahrenkarte/FeatureServer/0/query f==geojson returnGeometry=true spatialRel==esriSpatialRelIntersects where==1=1 geometryType==esriGeometryEnvelope inSR==102100
+
+
 ------
 klimaanpassung
 https://geoportal.karlsruhe.de/ags04/rest/services/Hosted/Klimaanpassungsmassnahmen/FeatureServer/0 and 1
