@@ -11,3 +11,19 @@ Full city, 6 tiles like:
 probably uses esri geodesic utils
 https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-geodesicUtils.html
 
+------
+klimaanpassung
+https://geoportal.karlsruhe.de/ags04/rest/services/Hosted/Klimaanpassungsmassnahmen/FeatureServer/0 and 1
+
+http get  https://geoportal.karlsruhe.de/ags04/rest/services/Hosted/Klimaanpassungsmassnahmen/FeatureServer/1/query f==geojson  outSR==102100 returnGeometry==true spatialRel==esriSpatialRelIntersects orderByFields= where==1=1 > anpassung2.geojson
+
+
+f=json
+returnIdsOnly=true
+returnCountOnly=true
+orderByFields=
+outSR=102100
+returnGeometry=false
+spatialRel=esriSpatialRelIntersects
+where=1%3D1
+
