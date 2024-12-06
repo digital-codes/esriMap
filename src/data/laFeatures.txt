@@ -41,3 +41,11 @@ http get https://geoportal.karlsruhe.de/ags04/rest/services/Hosted//Laermkarten_
 schutzgebiete 0..9
 
 http get https://geoportal.karlsruhe.de/ags04/rest/services/Hosted/Schutzgebiete/FeatureServer/10/query f==geojson returnGeometry=true spatialRel==esriSpatialRelIntersects where==1=1 geometryType==esriGeometryEnvelope inSR==102100 > schutzgebiete10.geojson
+
+
+------ get layer info like:
+http get https://geoportal.karlsruhe.de/ags04/rest/services/Hosted/Schutzgebiete/FeatureServer/ f==json
+
+then for all layers like 
+http get https://geoportal.karlsruhe.de/ags04/rest/services/Hosted/Schutzgebiete/FeatureServer/<layernumber> f==json
+
