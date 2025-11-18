@@ -22,6 +22,6 @@
     "@arcgis/map-components": "^4.31.6",
     "@fontsource/figtree": "^5.1.1",
     "@fontsource/roboto": "^5.1.0",
-    "npm": "^10.9.1"
+    "npm": "^11.6.2"
   }
 }
